@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#163b33">
+  <meta name="description" content="Quest & Quill: short, self-guided library quests for curious explorers. Beta program.">
+  <title>Quest & Quill — Library Adventure Beta</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to quests</a>
+  <header class="hero">
+    <div class="hero__inner">
+      <div class="eyebrow">THE LIBRARY ADVENTURE BOARD <span aria-hidden="true">✦</span> BETA</div>
+      <div class="hero__icon" aria-hidden="true">✧ 📖 ✧</div>
+      <h1>Quest <span class="amp">&amp;</span> Quill</h1>
+      <p class="tagline">Every page opens a new world.</p>
+      <p class="hero__explainer">Pick a quest. Explore the library. Record your discovery.</p>
+    </div>
+  </header>
+  <main id="main" class="shell">
+    <section class="intro" aria-label="How to play">
+      <div class="steps"><span><strong>1.</strong> Choose</span><span><strong>2.</strong> Explore</span><span><strong>3.</strong> Complete</span></div>
+      <p><strong>All ages · No sign-up · Borrowing is optional.</strong> Complete a quest alone or together. Program attendance, checkouts, and scavenger hunts have accessible alternatives. Puzzle answers are checked on this device.</p>
+    </section>
+    <div class="section-head"><div><div class="kicker">THE QUEST BOARD</div><h2>Available quests</h2><p id="rotation-title" class="rotation-label"></p></div><div class="progress" id="progress" aria-live="polite">0 completed</div></div>
+    <div id="quest-list" class="quest-grid"></div>
+    <section id="detail" class="detail" hidden aria-labelledby="detail-title">
+      <button id="back" class="ghost" type="button">← Back to quest board</button>
+      <div class="kicker" id="detail-category"></div><p id="detail-time" class="detail-time"></p>
+      <h2 id="detail-title"></h2>
+      <p id="detail-teaser" class="detail__teaser"></p>
+      <div class="mission"><div class="kicker">YOUR MISSION</div><p id="detail-mission"></p></div><div class="mission alt"><div class="kicker">ANOTHER WAY TO PARTICIPATE</div><p id="detail-alternate"></p></div><section id="puzzle-panel" class="puzzle-panel" hidden><div class="kicker">PUZZLE CHECKPOINT</div><p id="puzzle-prompt" class="puzzle-prompt"></p><label for="puzzle-answer">Enter your answer to unlock completion</label><div class="puzzle-controls"><input type="text" id="puzzle-answer" maxlength="40" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Your answer"><button type="button" id="check-answer" class="secondary">Check answer</button></div><p id="puzzle-result" class="status" role="status"></p><button id="show-hint" type="button" class="text-button">Show a hint</button><p id="puzzle-hint" class="hint" hidden></p></section>
+      <label id="reflection-label" for="note" class="reflect"></label>
+      <textarea id="note" rows="3" maxlength="700" placeholder="Optional: jot down your discovery for your own quest journal"></textarea>
+      <p class="privacy-note">Your journal, notes, and completion marks stay on this device. They are not sent to library staff. Attending a program or borrowing a book is optional to use this beta.</p>
+      <div class="actions"><button type="button" id="save-note" class="secondary">Save note</button><button type="button" id="complete" class="primary">Mark quest complete</button></div>
+      <p id="detail-status" class="status" role="status"></p>
+    </section>
+    <section class="beta" aria-label="Beta program feedback">
+      <div class="kicker">HELP SHAPE WHAT COMES NEXT</div>
+      <h2>This is a beta adventure.</h2>
+      <p>We're trying out quest ideas for a future library program. We'd love to know what you enjoyed, what was confusing, and what you'd like to see next.</p>
+      <div id="feedback-action"><p><strong>How to share:</strong> Leave a feedback slip in the collection envelope at the Quest & Quill bulletin board, or tell library staff what you thought.</p></div>
+    </section>
+    <footer class="footer"><p>Quest & Quill is a trial activity, not an official rank or rewards program. Your quest journal is saved only in this browser; clearing browser data or using another device will not transfer it.</p><button type="button" id="reset" class="text-button">Clear this device's quest journal</button></footer>
+  </main>
+  <script src="quests.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
