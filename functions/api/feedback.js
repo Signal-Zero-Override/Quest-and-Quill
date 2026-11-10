@@ -33,14 +33,15 @@ export async function onRequestPost({request, env}) {
     ? value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'').trim()
     : null;
   const liked=clean(data.liked), improve=clean(data.improve), confusing=clean(data.confusing);
+  const rotation=typeof data.rotation==='string' && /^(01|02|03|04)$/.test(data.rotation) ? data.rotation : '';
   if ([liked,improve,confusing].some(v=>v===null || v.length>450)) {
     return reply({error:'Please keep each answer under 450 characters.'},400);
   }
   if (!env.QUEST_STATS) return reply({error:'Feedback is temporarily unavailable.'},503);
   try {
     await env.QUEST_STATS.prepare(
-      'INSERT INTO quest_feedback (rating,liked,improve,confusing) VALUES (?,?,?,?)'
-    ).bind(rating,liked,improve,confusing).run();
+      'INSERT INTO quest_feedback (rating,liked,improve,confusing,rotation) VALUES (?,?,?,?,?)'
+    ).bind(rating,liked,improve,confusing,rotation).run();
     return reply({ok:true});
   } catch (_) {
     return reply({error:'Feedback is temporarily unavailable. Please try again later.'},503);
