@@ -4,6 +4,21 @@
   const storeKey = 'quest-quill-beta-v1';
   const active = cfg.quests.filter(q => q.active);
   const byId = id => document.getElementById(id);
+  // Anonymous, aggregate-only analytics. Never send journal text or personal data.
+  // Events are approximate activity indicators, not verified library statistics.
+  const track = (eventType, questId = '') => {
+    try {
+      const body = JSON.stringify({ event: eventType, quest: questId, rotation: String(cfg.rotation || '') });
+      fetch('/api/quest-event', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+        credentials: 'omit',
+        keepalive: true
+      }).catch(() => {});
+    } catch (_) {}
+  };
+
   let journal;
   try { journal = JSON.parse(localStorage.getItem(storeKey)) || {}; } catch (_) { journal = {}; }
   let selected = null;
@@ -41,6 +56,7 @@
     const q = active.find(x=>x.id===id);
     if (!q) { showBoard(); return; }
     selected=q;
+    track('quest_open',q.id);
     if(updateQuery) setQuery(id);
     byId('detail-category').textContent=q.category.toUpperCase();
     byId('detail-title').textContent=q.title;
@@ -85,6 +101,7 @@
     save();
     byId('complete').textContent=completed(selected)?'Mark incomplete':'Mark quest complete';
     byId('detail-status').textContent=completed(selected)?'Quest completed. Your discovery is saved on this device.':'Quest changed to incomplete.';
+    track(completed(selected)?'quest_complete':'quest_uncomplete',selected.id);
     renderBoard();
   });
   byId('check-answer').addEventListener('click',async () => {
@@ -96,18 +113,20 @@
       const digest=await sha256('qqbeta|'+selected.id+'|'+guess);
       if(digest===selected.puzzle.answerHash){
         journal[selected.id]={...(journal[selected.id]||{}),solved:true};save();
+        track('puzzle_correct',selected.id);
         byId('puzzle-result').textContent='Correct! You unlocked completion.';
         byId('complete').disabled=false;byId('complete').textContent='Mark quest complete';
         byId('show-hint').hidden=true;
       } else {
         journal[selected.id]={...(journal[selected.id]||{}),attempts:((journal[selected.id]||{}).attempts||0)+1};save();
+        track('puzzle_incorrect',selected.id);
         byId('puzzle-result').textContent='Not yet. Re-read the clues; the answer is not revealed by trying wrong options.';
         byId('check-answer').disabled=false;
       }
     }catch(_){byId('puzzle-result').textContent='Answer checking requires a secure HTTPS page. Try the deployed quest website.';byId('check-answer').disabled=false;}
   });
   byId('puzzle-answer').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();byId('check-answer').click();}});
-  byId('show-hint').addEventListener('click',()=>{byId('puzzle-hint').hidden=false;});
+  byId('show-hint').addEventListener('click',()=>{byId('puzzle-hint').hidden=false;if(selected)track('hint_open',selected.id);});
   byId('reset').addEventListener('click',() => {
     if(!window.confirm('Clear your saved Quest & Quill notes and completion marks on this device?'))return;
     journal={};save();showBoard();
