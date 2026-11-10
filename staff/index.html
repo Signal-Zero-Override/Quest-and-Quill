@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#173c34">
+  <title>Quest & Quill — Staff Report</title>
+  <style>
+    :root{--ink:#173c34;--pine:#214a3e;--gold:#e8c380;--cream:#fff8e8;--rust:#813e35}
+    *{box-sizing:border-box}body{margin:0;background:#eee5cf;color:#1d312d;font:16px/1.5 system-ui,Arial,sans-serif}
+    header{background:radial-gradient(circle at top,#315c49,#102a27);border-bottom:6px solid #c99b52;color:#fff7db;text-align:center;padding:28px 18px}
+    header h1{font:700 clamp(2.1rem,7vw,3.4rem) Georgia,serif;margin:4px auto}
+    header p{margin:3px}.eyebrow{color:#efd18f;letter-spacing:.14em;font-size:.82rem;font-weight:800}
+    main{max-width:1060px;padding:20px 16px 50px;margin:auto}
+    .panel{border:1px solid #c8ab77;background:var(--cream);box-shadow:0 4px 0 #d8caac;border-radius:12px;padding:22px;margin:15px 0}
+    h2,h3{font-family:Georgia,serif;color:#173d32}h2{margin:0 0 12px}
+    p{max-width:760px}label{display:block;font-weight:700;margin:10px 0}
+    input,select{font:inherit;max-width:100%;padding:11px;border-radius:8px;border:2px solid #b69a68;background:white}
+    input[type=password]{width:100%;max-width:550px}
+    button{font:inherit;font-weight:750;padding:11px 17px;border-radius:9px;border:2px solid var(--pine);cursor:pointer;background:var(--pine);color:#fff}
+    button.outline{background:#fff8e8;color:var(--pine)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #b77738;outline-offset:3px}
+    button:disabled{opacity:.55;cursor:wait}.muted{color:#5f625b;font-size:.9rem}.error{color:#a52d28;font-weight:750}
+    .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}
+    .stat{padding:14px;background:#f5e9ce;border-radius:10px;border:1px solid #cbb182}
+    .number{font:700 2rem Georgia,serif;color:#143e32}.stat span{font-size:.85rem;color:#59554b;display:block}
+    .table-scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:11px 9px;border-bottom:1px solid #d8c39e;text-align:left}th{background:#e9d9b8}
+    .bars>div{display:flex;gap:10px;align-items:center;margin:10px 0}.bar{width:min(360px,65%);background:#e6ddc7;border-radius:5px;height:12px;overflow:hidden}
+    .bar span{display:block;background:#2c745a;height:100%}.entry{padding:15px 0;border-bottom:1px solid #d7c7a7}
+    .entry p{margin:.4rem 0;white-space:pre-wrap;overflow-wrap:anywhere}.entry .meta{font-size:.85rem;color:#695d48}
+    [hidden]{display:none!important}footer{text-align:center;color:#5c5a50;font-size:.9rem;margin:25px 0}
+  </style>
+  <script defer src="/staff/staff.js"></script>
+</head>
+<body>
+  <header><div class="eyebrow">GUILD RECORDS · STAFF ONLY</div><h1>Quest &amp; Quill</h1><p>Beta Participation &amp; Feedback Report</p></header>
+  <main>
+    <section id="login-panel" class="panel">
+      <h2>Unlock staff reports</h2>
+      <p>This page requires a private staff access key. The key is checked by Cloudflare and is not saved in this browser.</p>
+      <form id="staff-login">
+        <label for="staff-key">Staff access key</label>
+        <input id="staff-key" type="password" required autocomplete="off" spellcheck="false">
+        <p><button type="submit" id="staff-login-btn">View report</button></p>
+        <p id="staff-login-status" class="error" role="status"></p>
+      </form>
+    </section>
+    <div id="report" hidden>
+      <section class="panel toolbar">
+        <div><h2>Guild ledger</h2><p id="updated" class="muted"></p></div>
+        <div><button type="button" id="refresh" class="outline">Refresh</button> <button type="button" id="export" class="outline">Export feedback CSV</button> <button type="button" id="logout">Lock</button></div>
+      </section>
+      <section class="panel">
+        <h2>At a glance <small class="muted">(all time)</small></h2>
+        <div class="grid">
+          <div class="stat"><div id="total-feedback" class="number">—</div><span>Feedback responses</span></div>
+          <div class="stat"><div id="avg-rating" class="number">—</div><span>Average rating / 5</span></div>
+          <div class="stat"><div id="quest-opens" class="number">—</div><span>Quest opens</span></div>
+          <div class="stat"><div id="quest-completions" class="number">—</div><span>Completion actions</span></div>
+          <div class="stat"><div id="puzzle-correct" class="number">—</div><span>Puzzles solved</span></div>
+          <div class="stat"><div id="hints" class="number">—</div><span>Hints opened</span></div>
+        </div>
+        <p class="muted">Counts are actions, not verified unique visitors, program attendance, or circulation transactions. A patron can open or complete the same quest more than once.</p>
+      </section>
+      <section class="panel">
+        <h2>Enjoyment ratings</h2>
+        <div id="rating-bars" class="bars"></div>
+      </section>
+      <section class="panel">
+        <div class="toolbar"><h2>Quest activity</h2><div><label for="rotation">Rotation</label><select id="rotation"><option value="all">All rotations</option><option value="01">01 · Guild's First Call</option><option value="02">02 · Secrets of the Stacks</option><option value="03">03 · Winter Expedition</option><option value="04">04 · Final Dispatch</option></select></div></div>
+        <div class="table-scroll">
+          <table><thead><tr><th>Quest</th><th>Opened</th><th>Completed</th><th>Correct puzzles</th><th>Hints</th></tr></thead><tbody id="quest-rows"></tbody></table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Patron comments <small class="muted">(latest 100)</small></h2>
+        <p class="muted">Free-text answers may contain details voluntarily typed by patrons. Treat this report and exported CSV as staff-only material.</p>
+        <div id="feedback-entries"></div>
+      </section>
+    </div>
+    <footer>Quest &amp; Quill · Beta Reporting · Staff access only</footer>
+  </main>
+</body>
+</html>
