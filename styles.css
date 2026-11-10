@@ -38,3 +38,5 @@ button:disabled{opacity:.55;cursor:not-allowed;}
 .feedback-paper{font-size:.84rem;color:#64553e;max-width:none!important}
 .feedback-honeypot{position:absolute;left:-200vw;width:1px;height:1px;overflow:hidden}
 @media(max-width:520px){.rating-options{grid-template-columns:1fr}}
+
+.feedback-callout{margin:10px 0 0;font-weight:750}.feedback-callout a{color:#7b372c;text-decoration:underline;text-underline-offset:3px}
