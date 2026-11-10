@@ -42,12 +42,34 @@
       <div class="kicker">HELP SHAPE WHAT COMES NEXT</div>
       <h2>This is a beta adventure.</h2>
       <p>We're trying out quest ideas for a future library program. We'd love to know what you enjoyed, what was confusing, and what you'd like to see next.</p>
-      <div id="feedback-action"><p><strong>How to share:</strong> Leave a feedback slip in the collection envelope at the Quest & Quill bulletin board, or tell library staff what you thought.</p></div>
+      <form id="feedback-form" class="feedback-form" action="/api/feedback" method="post">
+        <fieldset class="feedback-rating">
+          <legend>How much did you enjoy your adventure? <span aria-hidden="true">*</span></legend>
+          <div class="rating-options">
+            <label><input type="radio" name="rating" value="5" required><span>★ Loved it!</span></label>
+            <label><input type="radio" name="rating" value="4"><span>✦ It was fun</span></label>
+            <label><input type="radio" name="rating" value="3"><span>◆ It was okay</span></label>
+            <label><input type="radio" name="rating" value="2"><span>◇ Not for me</span></label>
+          </div>
+        </fieldset>
+        <label class="feedback-label" for="feedback-liked">What was your favorite part? <span>(optional)</span></label>
+        <textarea id="feedback-liked" name="liked" rows="2" maxlength="450" placeholder="Scavenger hunts, puzzles, discovering new books…"></textarea>
+        <label class="feedback-label" for="feedback-confusing">Was anything confusing? <span>(optional)</span></label>
+        <textarea id="feedback-confusing" name="confusing" rows="2" maxlength="450" placeholder="Anything we could make clearer?"></textarea>
+        <label class="feedback-label" for="feedback-improve">What would you like to see in the full program? <span>(optional)</span></label>
+        <textarea id="feedback-improve" name="improve" rows="2" maxlength="450" placeholder="More stories, discoveries, challenges…"></textarea>
+        <div class="feedback-honeypot" aria-hidden="true"><label for="feedback-website">Leave this blank</label><input id="feedback-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <p class="feedback-privacy">Your feedback is voluntary and stored for library staff to review. No account is needed. Please don't include names, contact information, library card details, or personal information. Your private quest journal is not submitted.</p>
+        <button id="feedback-submit" class="feedback-submit" type="submit">Send anonymous feedback</button>
+        <p id="feedback-status" class="feedback-status" role="status" aria-live="polite"></p>
+        <p class="feedback-paper">Prefer paper? Leave a suggestion slip at the Quest & Quill board in the Young Adult Area.</p>
+      </form>
     </section>
     <footer class="footer"><p>Quest & Quill is a trial activity, not an official rank or rewards program. Your quest journal is saved only in this browser; clearing browser data or using another device will not transfer it. Anonymous activity counts are collected separately.</p><button type="button" id="reset" class="text-button">Clear this device's quest journal</button></footer>
   </main>
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"8a718f8df8a344d5a376d016ab15b857"}'></script>
   <script src="quests.js"></script>
   <script src="app.js"></script>
+  <script src="feedback.js"></script>
 </body>
 </html>
