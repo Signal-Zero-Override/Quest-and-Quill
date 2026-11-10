@@ -36,7 +36,7 @@ export async function onRequestGet({request,env}) {
         'SELECT rating,COUNT(*) AS count FROM quest_feedback GROUP BY rating ORDER BY rating DESC'
       ).all(),
       env.QUEST_STATS.prepare(
-        'SELECT id,created_at,rating,liked,improve,confusing FROM quest_feedback ORDER BY id DESC LIMIT 100'
+        'SELECT id,created_at,rotation,rating,liked,improve,confusing FROM quest_feedback ORDER BY id DESC LIMIT 100'
       ).all(),
       env.QUEST_STATS.prepare(
         'SELECT rotation,quest_id,event_type,SUM(event_count) AS total FROM quest_event_totals GROUP BY rotation,quest_id,event_type ORDER BY rotation,quest_id,event_type'
