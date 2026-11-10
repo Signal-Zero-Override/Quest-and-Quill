@@ -25,6 +25,7 @@
     if(!rating) { status.textContent='Please choose a rating first.'; return; }
     const payload={
       rating:Number(rating.value),
+      rotation:String(window.QUEST_AND_QUILL_DATA?.rotation || ''),
       liked:form.elements.namedItem('liked').value,
       improve:form.elements.namedItem('improve').value,
       confusing:form.elements.namedItem('confusing').value,
